@@ -6,7 +6,7 @@ from CW1_Program.users import Student, Teacher, Admin
 
 
 def load_users():
-    with open('data/users.json', 'r') as file:
+    with open('users.json', 'r') as file:
         users_data = json.load(file)
     return users_data
 

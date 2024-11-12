@@ -1,7 +1,6 @@
 #先把抽象类写好
 from CW1_Program.courses import Course
-
-
+import json
 class Users():
     def __init__(self,user_id,user_name,user_password,role):
         self.user_name=user_name
@@ -21,11 +20,42 @@ class Student(Users):
 
     def view_available_course(self):
         #查看可选课程
-        pass
+        with open('course.json','r') as filename:
+            course=json.load(filename)
+        print("all the available courses:",end='\n')
+        for i in course:
+            print(f"course name: {i['course_name']}, course_id: {i['course_id']}")
 
     def enroll_course(self):
         #加入课程
-        pass
+        course_id=input("please type in the course id OF the course that you want to enroll: ")
+        with open("course.json","r") as filename:
+            course=json.load(filename)
+        '''
+         你这里的读文件最好也一块集成到工具类里去
+        '''
+        #查找课程
+        for i in course:
+            if i['course_id']==course_id:
+                if self.user_id not in i['student_list']:
+                    i['student_list'].append(self.user_id)
+                    self.enrolled_course.append(course_id)
+                    #这里没定义save的函数
+                    save_course(course)
+                    #这里的函数到时候再定义一个工具类，去工具类里面写
+                    users = load_users()
+                    for j in users:
+                        if j['user_id']==self.user_id:
+                            j['enrolled_course']=self.enrolled_course
+                            break
+                    save_user(users)
+                    # 这里也没定义save
+                    print('your had successfully enrolled')
+                    return
+                else:
+                    print('your had already enrolled')
+                    return
+        print('the class does not exist')
 
     def view_enrolled_course(self):
         #查看已经加入的课程
