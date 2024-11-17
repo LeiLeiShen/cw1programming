@@ -90,7 +90,39 @@ class Teacher(Users):
 
     def view_students(self):
         #查看学生
-        pass
+        if not self.course_teach:
+            print("you dont have any student")
+            return
+        for idx,course in enumerate(self.course_teach,1):
+            print(f'{idx}.course_id: {course}')
+        choice=int(input('type in the serial number of the course you wanna view: '))
+
+        try:
+            choice=int(choice)
+            if 0<choice<len(self.course_teach)+1:
+                selected_course=self.course_teach[choice-1]
+                course_data=load_course()
+                for course in course_data:
+                    if course['course_id']==selected_course:
+                        students=course['student_list']
+                        if not students:
+                            print('there is no student in the course')
+                        else:
+                            print(f'the student of class{selected_course} are followed')
+                            for student in students:
+                                print(student,end=',')
+                                break
+              
+                '''
+                没写完
+                '''
+
+
+
+
+
+
+
 
     def view_course_teach(self):
         #查看教授的课程
